@@ -1,17 +1,32 @@
 
-import { MentalProcess, indentNicely, useActions } from "@opensouls/engine";
+import { MentalProcess, indentNicely, useActions, usePerceptions } from "@opensouls/engine";
 import internalMonologue from "./cognitiveSteps/internalMonologue.js";
-import instruction from "./cognitiveSteps/instruction.js";
 
 const gainsTrustWithTheUser: MentalProcess = async ({ workingMemory }) => {
   const { speak, log } = useActions()
+  const { pendingPerceptions } = usePerceptions()
 
-  const [withEmotion] = await internalMonologue(workingMemory, {
-    instructions: "What strong emotions do I feel right now?",
+  if (pendingPerceptions.current.length > 0) {
+    // simply ignore this then
+    log("ignoring due to pending")
+
+    return undefined
+  }
+
+  const [withEmotion, felt] = await internalMonologue(workingMemory, {
+    instructions: "What strong emotions do I feel right now? Answer in max of 5 words.",
     verb: "felt",
     },
     { model: "exp/nous-hermes-2-mixtral-fp8" }
   )
+
+  log("felt", felt)
+
+  if (pendingPerceptions.current.length > 0) {
+    // simply ignore this then
+    log("ignoring due to pending")
+    return workingMemory
+  }
 
   const [withDialog, stream] = await internalMonologue(
     withEmotion,
