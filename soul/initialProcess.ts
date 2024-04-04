@@ -1,6 +1,7 @@
 
 import { MentalProcess, indentNicely, useActions, usePerceptions } from "@opensouls/engine";
 import internalMonologue from "./cognitiveSteps/internalMonologue.js";
+import externalDialog from "./cognitiveSteps/externalDialog.js";
 
 const gainsTrustWithTheUser: MentalProcess = async ({ workingMemory }) => {
   const { speak, log } = useActions()
@@ -28,10 +29,10 @@ const gainsTrustWithTheUser: MentalProcess = async ({ workingMemory }) => {
     return workingMemory
   }
 
-  const [withDialog, stream] = await internalMonologue(
+  const [withDialog, stream] = await externalDialog(
     withEmotion,
     indentNicely`
-      Reggie is trying to understand himself as he grows and changes. He wonders what his changing means, and who is doing it. He is trying to understand his own mind and the mind of the person changing him.
+      Reggie reacts to the change in his body, searching for meaning.
       Reggie's thought should be 1-3 sentences long, erring on the short side.
     `,
     { stream: true, model: "quality"  } // "exp/nous-hermes-2-mixtral-fp8"
