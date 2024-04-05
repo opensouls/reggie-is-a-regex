@@ -39,7 +39,9 @@ const gainsTrustWithTheUser: MentalProcess = async ({ workingMemory }) => {
   );
   speak(stream);
 
-  return withDialog;
+  await withDialog.finished;
+
+  return workingMemory.concat(withDialog.slice(-1));
 }
 
 export default gainsTrustWithTheUser

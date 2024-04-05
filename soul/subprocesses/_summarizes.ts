@@ -34,7 +34,7 @@ const summarizesConversation: MentalProcess = async ({ workingMemory }) => {
   const { log } = useActions()
 
 
-  if (workingMemory.memories.length > 6) {
+  if (workingMemory.memories.length > 7) {
     log("updating conversation notes");
     const [withMemoryThoughts] = await internalMonologue(workingMemory, {
       instructions: indentNicely`
@@ -72,7 +72,7 @@ const summarizesConversation: MentalProcess = async ({ workingMemory }) => {
       metadata: {
         conversationSummary: true
       }
-    }).concat(workingMemory.slice(-3))
+    }).concat(workingMemory.slice(-4))
   }
 
   return workingMemory
